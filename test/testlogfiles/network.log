@@ -5,4 +5,4 @@
 2026-03-20 09:00:00 INFO  Routine network scan completed - no threats found
 2026-03-20 10:22:37 WARN  Port scan detected from 198.51.100.23
 2026-03-20 10:22:38 INFO  Port scan blocked - source IP flagged
-2026-03-20 11:30:00 INFO  VPN tunnel established for user 'krish'
+2026-03-20 11:30:00 INFO  VPN tunnel established for user 'default'
