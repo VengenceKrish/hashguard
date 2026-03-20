@@ -1,0 +1,8 @@
+2026-03-20 07:00:01 INFO  Network interface eth0 up - IP: 192.168.1.5
+2026-03-20 07:45:22 WARN  Unusual outbound traffic detected to 203.0.113.99 - 2.3GB transferred
+2026-03-20 07:45:25 ERROR Possible data exfiltration attempt - connection terminated
+2026-03-20 08:10:11 INFO  Firewall rule updated by admin
+2026-03-20 09:00:00 INFO  Routine network scan completed - no threats found
+2026-03-20 10:22:37 WARN  Port scan detected from 198.51.100.23
+2026-03-20 10:22:38 INFO  Port scan blocked - source IP flagged
+2026-03-20 11:30:00 INFO  VPN tunnel established for user 'krish'

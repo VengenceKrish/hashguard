@@ -1,0 +1,8 @@
+2026-03-20 08:01:12 INFO  User 'admin' logged in successfully from 192.168.1.10
+2026-03-20 08:15:43 WARN  Failed login attempt for user 'root' from 203.0.113.42
+2026-03-20 08:15:45 WARN  Failed login attempt for user 'root' from 203.0.113.42
+2026-03-20 08:15:47 ERROR Too many failed attempts from 203.0.113.42 - IP blocked
+2026-03-20 09:02:11 INFO  User 'krish' logged in successfully from 192.168.1.15
+2026-03-20 09:45:00 INFO  User 'krish' logged out
+2026-03-20 10:30:22 WARN  Failed login attempt for user 'admin' from 198.51.100.7
+2026-03-20 11:00:01 INFO  User 'admin' logged out

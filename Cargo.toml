@@ -1,0 +1,9 @@
+[package]
+name = "file_integrity_checker"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+rusqlite = "0.38.0"
+sha2 = "0.10"
+chrono = "0.4"
