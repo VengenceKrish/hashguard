@@ -12,7 +12,7 @@ Unsatisfied:
 - Make it executable in bash
 */
 
-use std::fs::File;
+use std::fs::{File};
 use std::io::{self, Read};
 use sha2::{Sha256, Digest};
 use rusqlite::{params, Connection};
@@ -60,33 +60,7 @@ fn update_discrepancy(conn: &Connection, filename: &str) { // Only changes Overw
     ).expect("Failed to update discrepancy");
 }
 
-fn main() {
-    // Setting up the db.
-    let conn = Connection::open("hashes.db").expect("Failed to open database");
-    conn.execute( // Has Table
-        "CREATE TABLE IF NOT EXISTS file_hashes (
-            filename TEXT PRIMARY KEY,
-            hash TEXT NOT NULL
-        )",[],).expect("Failed to create table");
-
-    conn.execute( // Discrepancy table
-    "CREATE TABLE IF NOT EXISTS discrepancies (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        filename TEXT NOT NULL,
-        stored_hash TEXT NOT NULL,
-        new_hash TEXT NOT NULL,
-        overwritten BOOLEAN NOT NULL,
-        timestamp TEXT NOT NULL
-    )", [],).expect("Failed to create discrepancies table");
-
-    // File input
-    let mut filename = String::new();
-    println!("Enter log file name/PATH"); // Implement the path thing later
-    io::stdin().read_line(&mut filename).expect("failed to readline");
-
-    // remove trailing newline
-    let filename = filename.trim();
-
+fn process_file(conn: &Connection, filename: &str){
     match input_log_dir(filename){
         Ok(file) => {
         println!("File opened successfully");
@@ -113,9 +87,8 @@ fn main() {
                             println!("Maximum attempts reached. Aborting.");
                             break;
                         }
-
-                        println!("Would you like to overwrite the stored hash? (yes/no)");
                         
+                        println!("Would you like to overwrite the stored hash? (yes/no)");
                         let mut input = String::new();
                         io::stdin().read_line(&mut input).expect("Failed to read input");
                         let input = input.trim().to_lowercase();
@@ -143,7 +116,45 @@ fn main() {
         },
         Err(e) => eprintln!("Error opening file: {}", e),
     }
+}
 
-    
-    
+fn main() {
+    // Setting up the db.
+    let conn = Connection::open("hashes.db").expect("Failed to open database");
+    conn.execute( // Has Table
+        "CREATE TABLE IF NOT EXISTS file_hashes (
+            filename TEXT PRIMARY KEY,
+            hash TEXT NOT NULL
+        )",[],).expect("Failed to create table");
+
+    conn.execute( // Discrepancy table
+    "CREATE TABLE IF NOT EXISTS discrepancies (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        filename TEXT NOT NULL,
+        stored_hash TEXT NOT NULL,
+        new_hash TEXT NOT NULL,
+        overwritten BOOLEAN NOT NULL,
+        timestamp TEXT NOT NULL
+    )", [],).expect("Failed to create discrepancies table");
+
+    // File input
+    let mut path = String::new();
+    println!("Enter log file or directory PATH"); // Implement the path thing later
+    io::stdin().read_line(&mut path).expect("failed to readline");
+    let path= path.trim(); // remove trailing newline
+
+    let metadata = std::fs::metadata(path).expect("Failed to read path");
+    if metadata.is_dir(){
+        for entry in std::fs::read_dir(path).expect("Failed to read dir"){
+            let entry = entry.expect("Failed to read entry");
+            let entry_path = entry.path();
+            if entry_path.extension().map(|e| e == "log").unwrap_or(false){
+                let filename = entry_path.to_str().expect("Invalid Path");
+                println!("Processing '{}'...", filename);
+                process_file(&conn, filename);
+            }
+        }
+    } else {
+        process_file(&conn, path);
+    }
 }
