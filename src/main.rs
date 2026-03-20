@@ -6,8 +6,6 @@ Satisfied:
 - On first use, store hashes in secure location: done
 - Subsequent uses: compare the hashes against previous ones
 - Clearly report discrepancies
-
-Unsatisfied:
 - Allow for manual reinit of log file integrity
 - Make it executable in bash
 */
